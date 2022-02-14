@@ -1,4 +1,5 @@
-import clone from 'lodash/clone';
+import cloneDeep from 'lodash/cloneDeep';
+
 import toPath from 'lodash/toPath';
 import * as React from 'react';
 
@@ -104,7 +105,8 @@ export function getIn(
  * @see https://github.com/jaredpalmer/formik/pull/123
  */
 export function setIn(obj: any, path: string, value: any): any {
-  let res: any = clone(obj); // this keeps inheritance when obj is a class
+  console.log('Modified formik setIn()');
+  let res: any = cloneDeep(obj); // this keeps inheritance when obj is a class
   let resVal: any = res;
   let i = 0;
   let pathArray = toPath(path);
@@ -114,7 +116,7 @@ export function setIn(obj: any, path: string, value: any): any {
     let currentObj: any = getIn(obj, pathArray.slice(0, i + 1));
 
     if (currentObj && (isObject(currentObj) || Array.isArray(currentObj))) {
-      resVal = resVal[currentPath] = clone(currentObj);
+      resVal = resVal[currentPath] = cloneDeep(currentObj);
     } else {
       const nextPath: string = pathArray[i + 1];
       resVal = resVal[currentPath] =
